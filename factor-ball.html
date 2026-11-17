@@ -7,8 +7,8 @@
 <style>
 :root{--bg:#0b1220;--panel:#121e31;--panel2:#1b2b43;--line:#2b405e;--text:#edf4ff;--muted:#9db0ca;--blue:#60a5fa;--green:#34d399;--yellow:#fbbf24;--red:#fb7185}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#1a3150 0,#0b1220 45%);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
-.app{max-width:1400px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#6366f1);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 24px #2563eb55}.brand h1{font-size:23px;margin:0;letter-spacing:.3px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#142238;border:1px solid var(--line);padding:9px 14px;border-radius:12px;min-width:105px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:21px;font-variant-numeric:tabular-nums}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}.main-panel,.side-panel{background:#101c2e;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 45px #0003}.main-panel{padding:14px}.formula{min-height:68px;background:linear-gradient(110deg,#172a45,#1b3452);border:1px solid #345273;border-radius:13px;padding:11px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}.formula-label{font-size:11px;color:#a9bfdc}.formula-main{font-size:22px;font-weight:800;letter-spacing:.5px}.formula-main .keep{color:var(--green)}.formula-note{font-size:12px;color:var(--muted);text-align:right}
+.app{max-width:1400px;margin:auto;padding:20px}.top{display:grid;grid-template-columns:minmax(235px,auto) minmax(0,1fr);align-items:center;gap:14px;margin-bottom:12px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#6366f1);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 24px #2563eb55}.brand h1{font-size:23px;margin:0;letter-spacing:.3px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.stat{background:#142238;border:1px solid var(--line);padding:8px 12px;border-radius:12px;min-width:95px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:21px;font-variant-numeric:tabular-nums}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}.main-panel,.side-panel{background:#101c2e;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 45px #0003}.main-panel{padding:14px}.formula{min-height:68px;background:linear-gradient(110deg,#172a45,#1b3452);border:1px solid #345273;border-radius:13px;padding:11px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}.formula-label{font-size:11px;color:#a9bfdc}.formula-main{font-size:22px;font-weight:800;letter-spacing:.5px}.formula-main .keep{color:var(--green)}
 .stage-wrap{position:relative;border-radius:14px;overflow:hidden;background:#0b1728;border:1px solid #2a4262}.stage-head{position:absolute;z-index:2;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:#9db4d2;font-size:11px}.stage-head span{background:#10233bd9;padding:5px 9px;border-radius:20px;border:1px solid #29415f}canvas{display:block;width:100%;height:560px;touch-action:none;cursor:crosshair}
 .side-panel{padding:16px;display:flex;flex-direction:column;gap:14px}.section-title{font-size:13px;font-weight:800;color:#c9d8eb;margin-bottom:8px}.control-row{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid #3a5272;background:#1b2d46;color:var(--text);border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;transition:.15s;font-size:13px}.btn:hover{filter:brightness(1.18);transform:translateY(-1px)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);border:0}.btn.good{background:#075b4a;border-color:#13866e}.btn.warn{background:#633b16;border-color:#a16207}.btn.danger{background:#5c2434;border-color:#9f3450}.btn.full{width:100%}.input-row{display:flex;gap:8px}.input-row input{width:100%;min-width:0;background:#0c1727;border:1px solid #344b69;border-radius:9px;padding:10px;color:white;font:inherit}.hint{font-size:12px;color:var(--muted);margin:7px 0 0}.status{border:1px solid #345273;background:#142943;border-radius:11px;padding:11px;font-size:13px;min-height:64px;color:#d9e8fb}.group-list{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}.group-chip{font-size:11px;padding:5px 8px;border-radius:20px;background:#243a58;border:1px solid #456384;color:#dceaff}.group-chip.keep{background:#064e3b;border-color:#10b981;color:#a7f3d0}.divider{height:1px;background:#293e5b}.bin{border:1px dashed #d97706;background:linear-gradient(135deg,#422d18,#30251c);border-radius:13px;padding:13px;text-align:center}.bin .emoji{font-size:28px}.bin strong{display:block;color:#fde68a}.bin p{font-size:11px;color:#d6b98e;margin:3px 0 0}.footer-note{font-size:11px;color:#8196b3;text-align:center;margin-top:10px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#172a43;border:1px solid #4a6688;color:white;padding:11px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:5;box-shadow:0 10px 30px #0006}.toast.show{opacity:1;transform:translate(-50%,0)}
@@ -27,25 +27,96 @@
 .finish-section{text-align:center}.btn.finish-groups{min-height:68px;font-size:20px;letter-spacing:1px;color:#17233a;background:linear-gradient(135deg,#fde047,#fb923c);border:1px solid #fde68a;box-shadow:0 6px 24px #f59e0b66}.btn.finish-groups:disabled{opacity:.55;filter:saturate(.6);box-shadow:none}.finish-hint{margin-top:5px}.finish-section .prime-action{width:100%;min-height:52px;margin-top:8px;white-space:normal}
 .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px}.mode-switch .btn{padding:9px 7px}.btn[aria-pressed="true"]{border-color:#60a5fa;background:#234b78;box-shadow:inset 0 0 0 1px #60a5fa55}.queue-controls{margin-top:12px;padding:12px;border:1px solid #345273;border-radius:11px;background:#102239}.queue-controls[hidden]{display:none}.queue-controls label{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:700}.queue-controls output{color:#93c5fd;font-variant-numeric:tabular-nums}.queue-controls input{width:100%;margin:12px 0 2px;accent-color:#60a5fa}.group-chip.queue{background:#263b65;border-color:#818cf8;color:#dbeafe}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.side-panel .wide{grid-column:1/-1}canvas{height:480px}}
-@media(max-width:560px){.app{padding:10px}.top{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}.side-panel{display:flex}canvas{height:430px}.formula{align-items:flex-start;flex-direction:column}.formula-note{text-align:left}}
+@media(max-width:560px){.app{padding:10px}.top{grid-template-columns:1fr;align-items:flex-start}.stats{width:100%}.stat{flex:1;min-width:0}.side-panel{display:flex}canvas{height:430px}.formula{align-items:flex-start;flex-direction:column}.formula .stats{justify-content:stretch}}
+</style>
+<style>
+.challenge-hub{display:flex;align-items:center;gap:9px;min-width:0}
+.challenge-controls{display:flex;align-items:stretch;flex:1;gap:8px;min-width:0}
+.challenge-hud{display:flex;align-items:stretch;gap:6px;flex:0 0 auto}
+.challenge-hud-stat{display:flex;min-width:72px;flex-direction:column;justify-content:center;padding:6px 8px;border:1px solid #304762;border-radius:10px;background:#0d1a2bdd}
+.challenge-hud-stat small{display:block;color:var(--muted);font-size:9px}
+.challenge-hud-stat strong{font:700 17px ui-monospace,SFMono-Regular,Consolas,monospace;color:#d9e8fb}
+.challenge-hud-stat #challengeTime{color:#fde68a}
+.challenge-hud-stat #challengePrimeCount{color:#a7f3d0;font-size:15px}
+.challenge-hud .btn{min-width:94px;padding:7px 9px;font-size:25px;line-height:1.2;white-space:normal}
+.level-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));flex:1;gap:7px;min-width:0}
+.level-card{position:relative;isolation:isolate;display:flex;min-width:0;min-height:84px;align-items:center;gap:8px;overflow:hidden;padding:8px;border:1px solid #39516c;border-radius:12px;background:linear-gradient(145deg,#1a2a3e,#101b2c 75%);color:var(--text);text-align:left;cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.level-card::before{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 90% 8%,var(--level-accent,#60a5fa),transparent 58%);content:"";opacity:.12;transition:opacity .2s ease}
+.level-card::after{position:absolute;top:3px;right:7px;color:var(--level-accent,#93c5fd);content:"⚡";font-size:20px;opacity:0;transform:translateY(-8px) scale(.7);filter:drop-shadow(0 0 8px currentColor);pointer-events:none}
+.level-card[data-level="1"]{--level-accent:#34d399}
+.level-card[data-level="2"]{--level-accent:#fb923c}
+.level-card[data-level="3"]{--level-accent:#a78bfa}
+.level-card:hover{transform:translateY(-2px);border-color:#7188a4}
+.level-card:focus-visible{outline:2px solid var(--level-accent);outline-offset:2px}
+.level-card.selected{transform:translateY(-3px);border-color:var(--level-accent);box-shadow:0 0 0 1px var(--level-accent),0 0 24px color-mix(in srgb,var(--level-accent) 32%,transparent)}
+.level-card.selected::before{opacity:.34}
+.level-card.selected::after{animation:level-card-lightning .9s steps(2,end) infinite;opacity:1}
+.level-card-icon{display:grid;flex:0 0 30px;width:30px;height:30px;place-items:center;font-size:23px;line-height:1.1}
+.level-card-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px;padding-right:12px}
+.level-card-tag{color:var(--level-accent);font:12px/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.7px}
+.level-card-record,.level-card-score{color:#91a7c3;font-size:12px;line-height:1.25;overflow-wrap:anywhere}
+.level-card-score{color:#fbd879;font-weight:700}
+@keyframes level-card-lightning{0%,100%{opacity:.55;transform:translateY(-2px) scale(.88)}45%{opacity:1;transform:translateY(2px) scale(1.16)}60%{opacity:.3;transform:translateY(0) scale(.92)}}
+.challenge-end{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:18px;background:#06111bea;color:var(--text);text-align:center}
+.challenge-end[hidden]{display:none}
+.challenge-end-card{width:min(440px,100%);padding:24px;border:1px solid #4d7193;border-radius:16px;background:linear-gradient(145deg,#172a42,#0b1728);box-shadow:0 18px 50px #0009}
+.challenge-end-card h2{margin:0 0 8px;color:#fde68a}
+.challenge-end-card p{color:var(--muted)}
+@media(max-width:1100px){.top{grid-template-columns:1fr}}
+@media(max-width:650px){.challenge-hub{align-items:stretch;flex-direction:column;gap:6px}.challenge-controls{width:100%;flex-direction:column}.level-cards{width:100%}.level-card{min-height:84px;gap:5px;padding:7px}.level-card-icon{flex-basis:19px;width:19px;height:19px;font-size:18px}.level-card-info{gap:3px;padding-right:9px}.level-card-tag{font-size:7px;letter-spacing:.3px}.level-card-record,.level-card-score{font-size:8px;line-height:1.15}.challenge-hud{width:100%}.challenge-hud-stat{flex:1}.challenge-hud .btn{flex:1}}
+@media(prefers-reduced-motion:reduce){.level-card,.level-card::before,.level-card.selected::after{transition:none;animation:none}.level-card.selected::after{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="top">
     <div class="brand"><div class="logo">⚪</div><div><h1>FACTOR BALL 因數球球</h1><p>把數字變成球，親手找出因數與質數！</p></div></div>
-    <div class="stats">
-      <div class="stat"><small>目前球數</small><strong id="ballCount">48</strong></div>
-      <div class="stat"><small>得分</small><strong id="score">0</strong></div>
-      <div class="stat"><small>消球次數</small><strong id="rounds">0</strong></div>
-    </div>
+    <section class="challenge-hub" aria-label="限時關卡挑戰">
+      <div class="challenge-controls">
+        <div class="level-cards" role="group" aria-label="選擇限時挑戰關卡">
+          <button class="level-card selected" data-level="1" type="button" aria-pressed="true">
+            <span class="level-card-icon" aria-hidden="true">🌱</span>
+            <span class="level-card-info">
+              <span class="level-card-tag">LEVEL 01 · EASY</span>
+              <span class="level-card-record">個人最佳：尚無紀錄</span>
+              <span class="level-card-score">最高分 0</span>
+            </span>
+          </button>
+          <button class="level-card" data-level="2" type="button" aria-pressed="false">
+            <span class="level-card-icon" aria-hidden="true">🔥</span>
+            <span class="level-card-info">
+              <span class="level-card-tag">LEVEL 02 · MEDIUM</span>
+              <span class="level-card-record">個人最佳：尚無紀錄</span>
+              <span class="level-card-score">最高分 0</span>
+            </span>
+          </button>
+          <button class="level-card" data-level="3" type="button" aria-pressed="false">
+            <span class="level-card-icon" aria-hidden="true">👑</span>
+            <span class="level-card-info">
+              <span class="level-card-tag">LEVEL 03 · EXPERT</span>
+              <span class="level-card-record">個人最佳：尚無紀錄</span>
+              <span class="level-card-score">最高分 0</span>
+            </span>
+          </button>
+        </div>
+        <div class="challenge-hud">
+          <div class="challenge-hud-stat"><small>剩餘時間</small><strong id="challengeTime">10:00</strong></div>
+          <div class="challenge-hud-stat"><small>蒐集質數</small><strong id="challengePrimeCount">0 / 15</strong></div>
+          <button class="btn primary" id="startChallenge" type="button">重 新</button>
+        </div>
+      </div>
+    </section>
   </header>
 
   <div class="layout">
     <main class="main-panel">
       <div class="formula">
         <div><div class="formula-label">因數分解紀錄</div><div class="formula-main" id="formula">48 = <span style="color:#fbbf24">?</span></div></div>
-        <div class="formula-note" id="formulaNote">整理磁吸群組，讓各組球數相同</div>
+        <div class="stats">
+          <div class="stat"><small>目前球數</small><strong id="ballCount">48</strong></div>
+          <div class="stat"><small>得分</small><strong id="score">0</strong></div>
+          <div class="stat"><small>消球次數</small><strong id="rounds">0</strong></div>
+        </div>
       </div>
       <div class="stage-wrap">
         <div class="stage-head"><span id="modeLabel">拖曳球體整理磁吸群組</span><span id="stageCount">48 BALLS</span></div>
@@ -58,7 +129,7 @@
             <strong class="fireworks-title" data-text="分組完成">分組完成</strong>
             <span class="fireworks-note" id="fireworksNote"></span>
             <div class="fireworks-progress"><i></i></div>
-            <div class="fireworks-foot"><span>完成分組 // 消球程序啟動中</span><span>EXEC <b class="fireworks-cursor">_</b></span></div>
+            <div class="fireworks-foot"><span>分組消球 // 消球程序啟動中</span><span>EXEC <b class="fireworks-cursor">_</b></span></div>
           </div>
         </div>
         <div class="tree-animation" id="treeAnimation" role="dialog" aria-modal="true" aria-labelledby="treeAnimationTitle" hidden aria-live="polite">
@@ -75,6 +146,13 @@
             <div class="tree-animation-foot"><span id="treeAnimationFoot">FACTORING SEQUENCE IN PROGRESS</span><span>SYS://TREE_RENDER</span></div>
           </div>
         </div>
+        <div class="challenge-end" id="challengeEnd" role="dialog" aria-modal="true" aria-labelledby="challengeEndTitle" hidden>
+          <div class="challenge-end-card">
+            <h2 id="challengeEndTitle">挑戰時間到！</h2>
+            <p id="challengeEndSummary"></p>
+            <button class="btn primary" id="challengeEndRestart" type="button">再挑戰一次</button>
+          </div>
+        </div>
       </div>
       <section class="prime-vault" aria-labelledby="primeVaultTitle">
         <div class="prime-vault-header">
@@ -89,14 +167,16 @@
         <div class="prime-deck-label"><span>ENCRYPTED PRIME CARDS</span><span>46 CARDS</span></div>
         <div class="prime-cards" id="primeCards" aria-label="1 到 200 之間的質數撲克牌"></div>
       </section>
-      <div class="footer-note" id="footerNote">拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按下「完成分組」即可消除多餘群組。</div>
+      <div class="footer-note" id="footerNote">拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按下「分組消球」即可消除多餘群組。</div>
     </main>
 
     <aside class="side-panel">
       <section class="wide finish-section">
-        <button class="btn full finish-groups" id="finishGroups" type="button" disabled aria-describedby="finishGroupsHint">完成分組</button>
+        <button class="btn full finish-groups" id="finishGroups" type="button" disabled aria-describedby="finishGroupsHint">分組消球</button>
         <p class="hint finish-hint" id="finishGroupsHint">至少兩組等量球體後，即可按下消去球。</p>
         <button class="btn prime-action" style="font-size: 20px;" id="primeBin" type="button">球是質數</button>
+        <button class="btn full" style="font-size: 20px;margin-top: 10px;" id="skipQuestion" type="button">跳 過</button>
+        <p class="hint">跳過不扣分、不增加蒐集數。</p>
       </section>
       <section class="wide">
         <div class="section-title">球體分組模式</div>
@@ -107,12 +187,12 @@
         <div class="queue-controls" id="queueControls" hidden>
           <label for="queueRows">排列列數 <output id="queueRowsValue" for="queueRows">2 列</output></label>
           <input id="queueRows" type="range" min="2" max="2" value="2" step="1" aria-describedby="queueHint">
-          <p class="hint" id="queueHint">每列為一組，系統會平均分配球數；各列球數相同後，按「完成分組」即可消球。</p>
+          <p class="hint" id="queueHint">每列為一組，系統會平均分配球數；各列球數相同後，按「分組消球」即可消球。</p>
         </div>
       </section>
       <section class="wide">
         <div class="section-title">磁力吸引</div>
-        <p class="hint">磁力會吸引附近球體。整理出至少兩組、每組至少兩顆且球數相同後，按下「完成分組」即可消球。</p>
+        <p class="hint">磁力會吸引附近球體。整理出至少兩組、每組至少兩顆且球數相同後，按下「分組消球」即可消球。</p>
       </section>
       <section class="wide">
         <div class="section-title">磁吸群組（自動更新球數）</div>
@@ -126,19 +206,29 @@
       <div class="divider wide"></div>
       <section class="wide">
         <div class="section-title">遊戲訊息</div>
-        <div class="status" id="status" role="status">歡迎來到因數球球！整理出等量磁吸群組後，按下「完成分組」即可消球。</div>
+        <div class="status" id="status" role="status">歡迎來到因數球球！整理出等量磁吸群組後，按下「分組消球」即可消球。</div>
       </section>
     </aside>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
+
 (() => {
   const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
   const $ = id => document.getElementById(id);
   const colors = ['#60a5fa','#fbbf24','#34d399','#f472b6','#a78bfa','#fb923c','#22d3ee','#f87171'];
+  const challengeLevels={
+    '1':{name:'簡易級',max:50,targetCount:15},
+    '2':{name:'中等難度',max:100,targetCount:25},
+    '3':{name:'高手級',max:200,targetCount:46}
+  };
+  const challengeDuration=10*60*1000;
+  const challengeRecordsKey='factor-ball.challenge-records.v2';
+  const legacyChallengeRecordsKey='factor-ball.challenge-records.v1';
   let balls=[], score=0, rounds=0, currentSelection=[], drag=null, W=900,H=560, lastTime=0, formulaFactors=[], factorTree=null, activeFactorNode=null, factorTreeHistory=[], eliminationSteps=[], gameComplete=false, magnetClusterSignature=null, isCelebrating=false, celebrationTimer=null, shatterTimer=null, nextGameTimer=null, shatterEffects=[], shatteringIds=new Set(), shatterStartedAt=0;
   let groupingMode='free', queueRows=2, canCompleteGroups=false;
+  let currentLevelId='1', challengeActive=false, challengeStartedAt=0, challengePrimeCount=0, challengeCollectedPrimes=new Set(), challengeInterval=null, challengeRecords={}, recordStorageAvailable=true, recordWarningShown=false;
   const radius=11, gravity=0.0, friction=0.992;
   const magnetRange=120, magnetStrength=0.045, magnetClusterGap=8;
   const shatterDuration=700;
@@ -211,7 +301,9 @@
       if(isFinal){
         nextGameTimer=setTimeout(()=>{
           overlay.hidden=true;nextGameTimer=null;
-          startGame(Math.floor(Math.random()*199)+2);
+          if(!challengeActive)return;
+          if(challengePrimeCount===challengeLevels[currentLevelId].targetCount)finishChallenge('complete');
+          else startGame(randomTarget());
         },1800);
       }else{
         nextGameTimer=setTimeout(()=>{index++;revealStep()},650);
@@ -223,6 +315,139 @@
 
   function setStatus(s){$('status').textContent=s}
   function toast(s){const el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2100)}
+  function loadChallengeRecords(){
+    const records=Object.fromEntries(Object.keys(challengeLevels).map(id=>[id,{bestScore:0,primeCount:0,timeMs:null}]));
+    try{
+      const saved=localStorage.getItem(challengeRecordsKey);
+      if(!saved){
+        const legacy=localStorage.getItem(legacyChallengeRecordsKey);
+        if(!legacy)return records;
+        const previous=JSON.parse(legacy);
+        Object.keys(challengeLevels).forEach(id=>{
+          const record=previous[id];
+          if(Number.isFinite(record?.bestScore))records[id].bestScore=Math.max(0,Math.floor(record.bestScore));
+        });
+        return records;
+      }
+      const parsed=JSON.parse(saved);
+      Object.keys(challengeLevels).forEach(id=>{
+        const record=parsed[id];
+        if(!record||!Number.isFinite(record.bestScore)||!Number.isFinite(record.primeCount))return;
+        records[id]={
+          bestScore:Math.max(0,Math.floor(record.bestScore)),
+          primeCount:Math.max(0,Math.floor(record.primeCount)),
+          timeMs:Number.isFinite(record.timeMs)&&record.timeMs>=0?record.timeMs:null
+        };
+      });
+    }catch(error){
+      console.error('無法讀取本機挑戰紀錄。',error);
+      recordStorageAvailable=false;
+    }
+    return records;
+  }
+  function saveChallengeRecords(){
+    if(!recordStorageAvailable)return;
+    try{
+      localStorage.setItem(challengeRecordsKey,JSON.stringify(challengeRecords));
+    }catch(error){
+      console.error('無法儲存本機挑戰紀錄。',error);
+      recordStorageAvailable=false;
+      if(!recordWarningShown){toast('本機紀錄無法儲存');recordWarningShown=true}
+      updateChallengePanel();
+    }
+  }
+  function formatDuration(milliseconds){
+    const totalSeconds=Math.floor(milliseconds/1000);
+    return `${Math.floor(totalSeconds/60)}:${String(totalSeconds%60).padStart(2,'0')}`;
+  }
+  function updateChallengePanel(){
+    const selectedLevel=challengeLevels[currentLevelId];
+    const remaining=challengeActive?Math.max(0,challengeDuration-(Date.now()-challengeStartedAt)):0;
+    $('challengeTime').textContent=challengeActive?formatDuration(remaining):'00:00';
+    $('challengePrimeCount').textContent=`${challengePrimeCount} / ${selectedLevel.targetCount}`;
+    $('startChallenge').textContent=challengeActive?'重 新':'開 始';
+    $('challengeEndRestart').textContent=`再挑戰${selectedLevel.name}`;
+    document.querySelectorAll('.level-card').forEach(card=>{
+      const levelId=card.dataset.level;
+      const level=challengeLevels[levelId];
+      const record=challengeRecords[levelId];
+      const selected=levelId===currentLevelId;
+      card.classList.toggle('selected',selected);
+      card.setAttribute('aria-pressed',String(selected));
+      card.querySelector('.level-card-record').textContent=recordStorageAvailable
+        ?record.primeCount
+          ?`最佳蒐集 ${record.primeCount} / ${level.targetCount} 個 · ${formatDuration(record.timeMs||0)}`
+          :'無紀錄'
+        :'本機紀錄無法儲存';
+      card.querySelector('.level-card-score').textContent=`最高分 ${record.bestScore}`;
+    });
+  }
+  function updateBestScore(){
+    if(!challengeActive)return;
+    const record=challengeRecords[currentLevelId];
+    if(score<=record.bestScore)return;
+    record.bestScore=score;
+    saveChallengeRecords();
+    updateChallengePanel();
+  }
+  function recordPrimeCollection(prime){
+    if(challengeCollectedPrimes.has(prime))return false;
+    challengeCollectedPrimes.add(prime);
+    challengePrimeCount=challengeCollectedPrimes.size;
+    const elapsed=Date.now()-challengeStartedAt;
+    const record=challengeRecords[currentLevelId];
+    if(challengePrimeCount>record.primeCount||
+      (challengePrimeCount===record.primeCount&&(record.timeMs===null||elapsed<record.timeMs))){
+      record.primeCount=challengePrimeCount;
+      record.timeMs=elapsed;
+      saveChallengeRecords();
+    }
+    updateChallengePanel();
+    return true;
+  }
+  function randomTarget(excludedTarget=null){
+    const max=challengeLevels[currentLevelId].max;
+    const targets=Array.from({length:max-1},(_,index)=>index+2).filter(target=>target!==excludedTarget);
+    return targets[Math.floor(Math.random()*targets.length)];
+  }
+  function checkChallengeTime(){
+    if(!challengeActive)return false;
+    if(Date.now()-challengeStartedAt>=challengeDuration){
+      finishChallenge(challengePrimeCount===challengeLevels[currentLevelId].targetCount?'complete':'time');
+      return false;
+    }
+    return true;
+  }
+  function finishChallenge(reason='time'){
+    if(!challengeActive)return;
+    challengeActive=false;
+    clearInterval(challengeInterval);challengeInterval=null;
+    clearTimeout(celebrationTimer);celebrationTimer=null;
+    clearTimeout(shatterTimer);shatterTimer=null;
+    clearTimeout(nextGameTimer);nextGameTimer=null;
+    isCelebrating=false;shatterEffects=[];shatteringIds.clear();drag=null;currentSelection=[];
+    $('fireworks').hidden=true;$('treeAnimation').hidden=true;
+    const level=challengeLevels[currentLevelId];
+    $('challengeEndTitle').textContent=reason==='complete'?'已蒐集本關全部質數！':'挑戰時間到！';
+    $('challengeEndSummary').textContent=`${level.name}完成：蒐集 ${challengePrimeCount} / ${level.targetCount} 種質數，得分 ${score}。`;
+    $('challengeEnd').hidden=false;
+    setStatus(reason==='complete'
+      ?`太棒了！已蒐集本關全部 ${level.targetCount} 種質數，得分 ${score}。`
+      :`時間到！本次蒐集 ${challengePrimeCount} / ${level.targetCount} 種質數，得分 ${score}。`);
+    updateUI();updateChallengePanel();
+  }
+  function startChallenge(levelId=currentLevelId){
+    currentLevelId=levelId;
+    clearInterval(challengeInterval);
+    challengePrimeCount=0;challengeCollectedPrimes=new Set();score=0;rounds=0;challengeActive=true;challengeStartedAt=Date.now();
+    $('challengeEnd').hidden=true;$('treeAnimation').hidden=true;
+    startGame(randomTarget());
+    challengeInterval=setInterval(()=>{
+      if(!checkChallengeTime())return;
+      updateChallengePanel();
+    },250);
+    updateChallengePanel();
+  }
   function updateUI(){
     $('ballCount').textContent=balls.length; $('stageCount').textContent=balls.length+' BALLS';
     $('score').textContent=score; $('rounds').textContent=rounds;
@@ -258,8 +483,7 @@
     $('fireworksNote').textContent='';
     document.querySelector('.fireworks-foot span').textContent='分組確認 // 消球程序啟動中';
     syncModeUI();
-    $('formulaNote').textContent=groupingMode==='queue'?'調整列數，讓各列球數相同以完成分組':'整理磁吸群組，讓各組球數相同';
-    makeBalls(n);setStatus(groupingMode==='queue'?`新挑戰開始！平台上有 ${n} 顆球，調整列數讓每列球數相同後，按下「完成分組」即可消球。`:`新挑戰開始！平台上有 ${n} 顆球，整理出等量磁吸群組後，按下「完成分組」即可消球。`);updateUI();
+    makeBalls(n);setStatus(groupingMode==='queue'?`${challengeLevels[currentLevelId].name}開始！平台上有 ${n} 顆球，調整列數讓每列球數相同後，按下「分組消球」即可消球。`:`${challengeLevels[currentLevelId].name}開始！平台上有 ${n} 顆球，整理出等量磁吸群組後，按下「分組消球」即可消球。`);updateUI();
   }
   function getQueueRowBounds(count=balls.length){
     const n=Math.max(1,count),min=2;
@@ -293,35 +517,38 @@
     const queue=groupingMode==='queue';
     $('freeMode').setAttribute('aria-pressed',String(!queue));
     $('queueMode').setAttribute('aria-pressed',String(queue));
-    $('freeMode').disabled=$('queueMode').disabled=isCelebrating||gameComplete;
-    $('finishGroups').disabled=!canCompleteGroups||isCelebrating||gameComplete;
+    $('freeMode').disabled=$('queueMode').disabled=!challengeActive||isCelebrating||gameComplete;
+    $('finishGroups').disabled=!challengeActive||!canCompleteGroups||isCelebrating||gameComplete;
+    $('primeBin').disabled=!challengeActive||isCelebrating||gameComplete;
+    $('skipQuestion').disabled=!challengeActive||isCelebrating||gameComplete;
     $('queueControls').hidden=!queue;
-    $('queueRows').disabled=isCelebrating||gameComplete;
+    $('queueRows').disabled=!challengeActive||isCelebrating||gameComplete;
     const bounds=getQueueRowBounds();
     queueRows=Math.min(bounds.max,Math.max(bounds.min,queueRows));
     $('queueRows').min=bounds.min;$('queueRows').max=bounds.max;
     $('queueRows').value=queueRows;
     $('queueRowsValue').textContent=`${queueRows} 列`;
     $('modeLabel').textContent=queue?'隊列模式：每列為一個分組':'自由磁吸模式：拖曳球體整理群組';
-    $('footerNote').textContent=queue?'使用列數拉條排列球體；每列為一組，各列球數相同時按「完成分組」消除多餘列。':'拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按「完成分組」消除多餘群組。';
+    $('footerNote').textContent=queue?'使用列數拉條排列球體；每列為一組，各列球數相同時按「分組消球」消除多餘列。':'拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按「分組消球」消除多餘群組。';
     canvas.style.cursor=queue?'default':'crosshair';
   }
   function setGroupingMode(mode){
-    if(isCelebrating||gameComplete||groupingMode===mode)return;
+    if(!checkChallengeTime()||isCelebrating||gameComplete||groupingMode===mode)return;
     groupingMode=mode;currentSelection=[];drag=null;magnetClusterSignature=null;
     if(mode==='queue')layoutQueueBalls();
     else balls.forEach(ball=>{ball.r=radius});
-    $('formulaNote').textContent=mode==='queue'?'調整列數，讓各列球數相同以完成分組':'整理磁吸群組，讓各組球數相同';
     syncModeUI();draw();
     setStatus(mode==='queue'?'已切換至隊列模式；調整列數即可排列球體，每列是一個分組。':'已切換至自由磁吸模式；可拖曳球體或框選球體整理群組。');
   }
   $('freeMode').addEventListener('click',()=>setGroupingMode('free'));
   $('queueMode').addEventListener('click',()=>setGroupingMode('queue'));
   $('queueRows').addEventListener('input',()=>{
+    if(!checkChallengeTime())return;
     queueRows=Number($('queueRows').value);
     layoutQueueBalls();magnetClusterSignature=null;updateUI();draw();
   });
   $('finishGroups').addEventListener('click',()=>{
+    if(!checkChallengeTime())return;
     const clusters=getMagnetClusters();
     if(!hasEqualGroups(clusters))return;
     finishGrouping(clusters);
@@ -347,11 +574,16 @@
     card.setAttribute('aria-label',`已解鎖的質數卡牌：${n}`);
     updatePrimeProgress();
   }
+  document.querySelectorAll('.level-card').forEach(card=>{
+    card.addEventListener('click',()=>startChallenge(card.dataset.level));
+  });
+  $('startChallenge').addEventListener('click',()=>startChallenge(currentLevelId));
+  $('challengeEndRestart').addEventListener('click',()=>startChallenge(currentLevelId));
   function pos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
   function hitBall(x,y){for(let i=balls.length-1;i>=0;i--){const b=balls[i];if(Math.hypot(b.x-x,b.y-y)<b.r+5)return b}return null}
   function rectIds(a,b){const x1=Math.min(a.x,b.x),x2=Math.max(a.x,b.x),y1=Math.min(a.y,b.y),y2=Math.max(a.y,b.y);return balls.filter(o=>o.x>=x1&&o.x<=x2&&o.y>=y1&&o.y<=y2).map(o=>o.id)}
   canvas.addEventListener('pointerdown',e=>{
-    if(isCelebrating||gameComplete||groupingMode==='queue')return;
+    if(!checkChallengeTime()||isCelebrating||gameComplete||groupingMode==='queue')return;
     const p=pos(e),b=hitBall(p.x,p.y);canvas.setPointerCapture(e.pointerId);
     if(b){const ids=currentSelection.includes(b.id)?[...currentSelection]:[b.id];drag={type:'move',last:p,ids};currentSelection=ids}
     else{drag={type:'marquee',start:p,end:p};currentSelection=[]}
@@ -369,7 +601,7 @@
   canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',endPointer);
 
   function hasEqualGroups(clusters){
-    if(isCelebrating||gameComplete||clusters.length<2)return false;
+    if(!challengeActive||isCelebrating||gameComplete||clusters.length<2)return false;
     const each=clusters[0].length;
     return each>=2&&clusters.every(cluster=>cluster.length===each);
   }
@@ -377,7 +609,7 @@
     const available=hasEqualGroups(clusters);
     if(canCompleteGroups!==available){
       canCompleteGroups=available;
-      $('finishGroupsHint').textContent=available?'分組條件達成，按下「完成分組」立即消球。':'至少兩組等量球體後，即可按下消去球。';
+      $('finishGroupsHint').textContent=available?'分組條件達成，按下「分組消球」立即消球。':'至少兩組等量球體後，即可按下消去球。';
     }
     $('finishGroups').disabled=!available||isCelebrating||gameComplete;
   }
@@ -414,27 +646,32 @@
     eliminationSteps.push({groupCount,each});
     factorTreeHistory.push(cloneFactorTree(factorTree));
     formulaFactors.push(String(groupCount));
-    score+=10+removeIds.size;rounds++;
+    score+=10+removeIds.size;rounds++;updateBestScore();
     isCelebrating=false;shatterTimer=null;
     currentSelection=[];drag=null;magnetClusterSignature=null;
-    $('formulaNote').textContent=`${groupCount} 組 × 每組 ${each} 顆；消除 ${groupCount-1} 組，保留 ${each} 顆`;
     setStatus(`已消除 ${removeIds.size} 顆，保留 ${each} 顆。繼續整理磁吸群組。`);
     updateUI();
   }
   $('primeBin').onclick=()=>{
-    if(gameComplete||isCelebrating)return;
+    if(!checkChallengeTime()||gameComplete||isCelebrating)return;
     const n=balls.length;
-    if(isPrime(n)){
-      score+=20+ n*2;balls=[];currentSelection=[];rounds++;
+    const isPrimeNumber=isPrime(n);
+    const max=challengeLevels[currentLevelId].max;
+    if(isPrimeNumber&&n<=max){
+      const isNewCollection=recordPrimeCollection(n);
+      if(isNewCollection){score+=20+n*2;updateBestScore()}
+      balls=[];currentSelection=[];rounds++;
       revealPrimeCard(n);
       gameComplete=true;completeFactorTree(factorTree);
-      $('formulaNote').textContent='分解完成，已展開完整因數樹';
-      setStatus(`太棒了！${n} 是質數，成功投入質數垃圾桶！完整因數樹已保留，稍後開始隨機新挑戰。`);
+      const targetCount=challengeLevels[currentLevelId].targetCount;
+      setStatus(isNewCollection
+        ?`太棒了！蒐集到質數 ${n}（${challengePrimeCount} / ${targetCount} 種），完整因數樹已保留。`
+        :`質數 ${n} 本局已蒐集過，不重複計入；目前 ${challengePrimeCount} / ${targetCount} 種。`);
       const fireworksTitle=$('fireworks').querySelector('.fireworks-title');
       document.querySelector('.fireworks-kicker').textContent='PRIME FOUND // TARGET VERIFIED';
       fireworksTitle.textContent='發現質數!!';fireworksTitle.dataset.text='發現質數!!';
-      $('fireworksNote').textContent=`${n} 是質數！解鎖卡牌。`;
-      document.querySelector('.fireworks-foot span').textContent='質數驗證成功 // ARCHIVE UPDATED';
+      $('fireworksNote').textContent=isNewCollection?`蒐集到質數 ${n}！`:`質數 ${n} 已收集過。`;
+      document.querySelector('.fireworks-foot span').textContent=isNewCollection?'質數蒐集成功 // ARCHIVE UPDATED':'重複質數 // COLLECTION UNCHANGED';
       $('fireworks').classList.add('prime-found');
       $('fireworks').hidden=false;
       celebrationTimer=setTimeout(()=>{
@@ -442,13 +679,22 @@
         animateCompletedFactorTree(n);
       },3400);
       updateUI();
+    }else if(isPrimeNumber){
+      setStatus(`${n} 是質數，但超出本關 1–${max} 的蒐集範圍，無法計入；可按「跳過目前題目」。`);
+      toast(`${n} 是質數，但超出本關蒐集範圍`);
     }else{
       score=Math.max(0,score-15);updateUI();setStatus(`${n} 不是質數！球體留在平台上，扣除 15 分。試著繼續分解。`);toast(`${n} 不是質數，-15 分`);
       if(groupingMode==='free')balls.forEach(b=>{b.vx+=(Math.random()-.5)*3;b.vy+=(Math.random()-.5)*3});
     }
   };
+  $('skipQuestion').addEventListener('click',()=>{
+    if(!checkChallengeTime()||gameComplete||isCelebrating)return;
+    const skippedTarget=balls.length;
+    startGame(randomTarget(skippedTarget));
+    setStatus(`已跳過 ${skippedTarget} 顆球的題目，已更換新題；沒有扣分，挑戰時間繼續計算。`);
+  });
   function physics(dt){
-    if(isCelebrating||gameComplete||groupingMode==='queue'||drag?.type==='marquee')return;
+    if(!challengeActive||isCelebrating||gameComplete||groupingMode==='queue'||drag?.type==='marquee')return;
     const step=Math.min(dt/16.67,2);
     for(const b of balls){
       if(drag?.type==='move'&&drag.ids.includes(b.id))continue;
@@ -537,7 +783,10 @@
     if(drag?.type==='marquee'){const x=Math.min(drag.start.x,drag.end.x),y=Math.min(drag.start.y,drag.end.y),w=Math.abs(drag.end.x-drag.start.x),h=Math.abs(drag.end.y-drag.start.y);ctx.fillStyle='#60a5fa22';ctx.strokeStyle='#93c5fd';ctx.setLineDash([5,4]);ctx.fillRect(x,y,w,h);ctx.strokeRect(x,y,w,h);ctx.setLineDash([])}
   }
   function animate(t){const dt=lastTime?Math.min(t-lastTime,34):16;lastTime=t;physics(dt);drawFrameOnly();requestAnimationFrame(animate)}
-  renderPrimeCards();resize();makeBalls(Math.floor(Math.random()*50)+2);requestAnimationFrame(animate);
+  challengeRecords=loadChallengeRecords();
+  renderPrimeCards();resize();startChallenge();
+  if(!recordStorageAvailable)toast('本機紀錄無法讀取，關閉頁面後無法保存紀錄');
+  requestAnimationFrame(animate);
 })();
 </script>
 </body>
