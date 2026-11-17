@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factor Ball｜因數球球</title>
+<style>
+:root{--bg:#0b1220;--panel:#121e31;--panel2:#1b2b43;--line:#2b405e;--text:#edf4ff;--muted:#9db0ca;--blue:#60a5fa;--green:#34d399;--yellow:#fbbf24;--red:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#1a3150 0,#0b1220 45%);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{max-width:1400px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#6366f1);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 24px #2563eb55}.brand h1{font-size:23px;margin:0;letter-spacing:.3px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#142238;border:1px solid var(--line);padding:9px 14px;border-radius:12px;min-width:105px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:21px;font-variant-numeric:tabular-nums}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}.main-panel,.side-panel{background:#101c2e;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 45px #0003}.main-panel{padding:14px}.formula{min-height:68px;background:linear-gradient(110deg,#172a45,#1b3452);border:1px solid #345273;border-radius:13px;padding:11px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}.formula-label{font-size:11px;color:#a9bfdc}.formula-main{font-size:22px;font-weight:800;letter-spacing:.5px}.formula-main .keep{color:var(--green)}.formula-note{font-size:12px;color:var(--muted);text-align:right}
+.stage-wrap{position:relative;border-radius:14px;overflow:hidden;background:#0b1728;border:1px solid #2a4262}.stage-head{position:absolute;z-index:2;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:#9db4d2;font-size:11px}.stage-head span{background:#10233bd9;padding:5px 9px;border-radius:20px;border:1px solid #29415f}canvas{display:block;width:100%;height:560px;touch-action:none;cursor:crosshair}
+.side-panel{padding:16px;display:flex;flex-direction:column;gap:14px}.section-title{font-size:13px;font-weight:800;color:#c9d8eb;margin-bottom:8px}.control-row{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid #3a5272;background:#1b2d46;color:var(--text);border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;transition:.15s;font-size:13px}.btn:hover{filter:brightness(1.18);transform:translateY(-1px)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);border:0}.btn.good{background:#075b4a;border-color:#13866e}.btn.warn{background:#633b16;border-color:#a16207}.btn.danger{background:#5c2434;border-color:#9f3450}.btn.full{width:100%}.input-row{display:flex;gap:8px}.input-row input{width:100%;min-width:0;background:#0c1727;border:1px solid #344b69;border-radius:9px;padding:10px;color:white;font:inherit}.hint{font-size:12px;color:var(--muted);margin:7px 0 0}.status{border:1px solid #345273;background:#142943;border-radius:11px;padding:11px;font-size:13px;min-height:64px;color:#d9e8fb}.group-list{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}.group-chip{font-size:11px;padding:5px 8px;border-radius:20px;background:#243a58;border:1px solid #456384;color:#dceaff}.group-chip.keep{background:#064e3b;border-color:#10b981;color:#a7f3d0}.divider{height:1px;background:#293e5b}.bin{border:1px dashed #d97706;background:linear-gradient(135deg,#422d18,#30251c);border-radius:13px;padding:13px;text-align:center}.bin .emoji{font-size:28px}.bin strong{display:block;color:#fde68a}.bin p{font-size:11px;color:#d6b98e;margin:3px 0 0}.footer-note{font-size:11px;color:#8196b3;text-align:center;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#172a43;border:1px solid #4a6688;color:white;padding:11px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:5;box-shadow:0 10px 30px #0006}.toast.show{opacity:1;transform:translate(-50%,0)}
+.fireworks{position:absolute;inset:0;z-index:3;display:grid;place-items:center;overflow:hidden;background:linear-gradient(#19ffc00a 1px,transparent 1px),linear-gradient(90deg,#19ffc00a 1px,transparent 1px),radial-gradient(circle at 50% 48%,#063b3bdc 0,#041521f2 68%);background-size:32px 32px,32px 32px,auto;color:#b8ffe6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;pointer-events:none;backdrop-filter:blur(3px)}.fireworks[hidden]{display:none}.fireworks::before{position:absolute;inset:0;content:"";background:repeating-linear-gradient(0deg,#9affdd08 0 1px,transparent 1px 5px);animation:fireworks-scan 2.4s linear infinite}.fireworks::after{position:absolute;left:0;right:0;top:50%;height:1px;content:"";background:linear-gradient(90deg,transparent,#45ffe0aa,transparent);box-shadow:0 0 18px #45ffe0;animation:fireworks-sweep 1.25s ease-in-out infinite alternate}.fireworks-hud{position:relative;display:grid;justify-items:center;gap:8px;width:min(580px,calc(100% - 32px));padding:clamp(18px,4vw,32px);border:1px solid #44ffc04a;background:linear-gradient(145deg,#041c22eF,#07111df2 70%);box-shadow:0 0 30px #00ffc033,inset 0 0 24px #00ffc014;animation:fireworks-hud-in .4s cubic-bezier(.2,.8,.2,1) both}.fireworks-hud::before,.fireworks-hud::after{position:absolute;width:18px;height:18px;content:""}.fireworks-hud::before{top:-1px;left:-1px;border-top:2px solid #73ffd2;border-left:2px solid #73ffd2}.fireworks-hud::after{right:-1px;bottom:-1px;border-right:2px solid #73ffd2;border-bottom:2px solid #73ffd2}.fireworks-head,.fireworks-foot{display:flex;width:100%;justify-content:space-between;gap:10px;color:#67dcb4;font-size:10px;letter-spacing:1.4px}.fireworks-head .online{color:#9dff68}.fireworks-head .online::before{display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:#76ff8d;box-shadow:0 0 10px #76ff8d;content:"";animation:fireworks-blink .8s steps(2) infinite}.fireworks-burst{position:relative;width:clamp(76px,12vw,112px);height:clamp(76px,12vw,112px);margin:2px 0}.fireworks-burst::before,.fireworks-burst::after{position:absolute;inset:18%;border:1px solid #51ffe0;border-radius:50%;box-shadow:0 0 14px #28ffd688,inset 0 0 14px #28ffd644;content:"";animation:fireworks-ring 1.2s ease-out infinite}.fireworks-burst::after{inset:30%;border-color:#adff73;animation-delay:.35s}.fireworks-burst i{position:absolute;top:50%;left:50%;width:4px;height:4px;border-radius:50%;background:#9dffbe;box-shadow:0 0 9px 2px #42ffd9;animation:fireworks-particle 1.15s ease-out infinite}.fireworks-burst i:nth-child(1){--angle:0deg}.fireworks-burst i:nth-child(2){--angle:45deg;animation-delay:.08s}.fireworks-burst i:nth-child(3){--angle:90deg;animation-delay:.16s}.fireworks-burst i:nth-child(4){--angle:135deg;animation-delay:.24s}.fireworks-burst i:nth-child(5){--angle:180deg;animation-delay:.32s}.fireworks-burst i:nth-child(6){--angle:225deg;animation-delay:.4s}.fireworks-burst i:nth-child(7){--angle:270deg;animation-delay:.48s}.fireworks-burst i:nth-child(8){--angle:315deg;animation-delay:.56s}.fireworks-kicker{color:#70f9c2;font-size:clamp(10px,1.5vw,12px);letter-spacing:2.5px;text-shadow:0 0 10px #22ffb966}.fireworks-title{position:relative;color:#e0fff3;font:900 clamp(24px,5vw,40px)/1.15 system-ui,sans-serif;letter-spacing:2px;text-shadow:0 0 10px #54ffcf,0 0 30px #00ffc088}.fireworks-title::before,.fireworks-title::after{position:absolute;inset:0;content:attr(data-text);pointer-events:none}.fireworks-title::before{color:#5dffe7;transform:translateX(2px);clip-path:inset(5% 0 62%);animation:fireworks-glitch .5s steps(2) infinite}.fireworks-title::after{color:#a7ff67;transform:translateX(-2px);clip-path:inset(68% 0 7%);animation:fireworks-glitch .65s steps(2) infinite reverse}.fireworks-note{color:#b4fbe0;font-size:clamp(12px,2vw,17px);font-weight:700;text-shadow:0 0 8px #00ffc066}.fireworks-progress{width:100%;height:4px;margin-top:8px;overflow:hidden;background:#12332f}.fireworks-progress i{display:block;width:0;height:100%;background:#5bffc5;box-shadow:0 0 12px #00ffc0;animation:fireworks-progress 3.4s linear forwards}.fireworks-foot{color:#619b8d;font-size:9px}.fireworks-cursor{color:#79ffaf;animation:fireworks-blink .65s steps(2) infinite}
+@keyframes fireworks-scan{to{background-position:0 5px}}@keyframes fireworks-sweep{from{transform:translateY(-110px);opacity:.2}to{transform:translateY(110px);opacity:.9}}@keyframes fireworks-hud-in{from{transform:scale(.92) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}@keyframes fireworks-ring{0%{transform:scale(.35);opacity:0}25%{opacity:1}100%{transform:scale(1.35);opacity:0}}@keyframes fireworks-particle{0%{transform:rotate(var(--angle)) translateY(0) scale(.3);opacity:0}18%{opacity:1}85%{opacity:1}100%{transform:rotate(var(--angle)) translateY(-48px) scale(.2);opacity:0}}@keyframes fireworks-glitch{0%,100%{transform:translateX(0)}30%{transform:translateX(3px)}65%{transform:translateX(-3px)}}@keyframes fireworks-blink{50%{opacity:.35}}@keyframes fireworks-progress{to{width:100%}}
+.fireworks:not(.prime-found) .fireworks-progress i{animation-duration:1.7s}
+@media(prefers-reduced-motion:reduce){.fireworks::before,.fireworks::after,.fireworks-hud,.fireworks-head .online::before,.fireworks-burst::before,.fireworks-burst::after,.fireworks-burst i,.fireworks-title::before,.fireworks-title::after,.fireworks-progress i,.fireworks-cursor{animation-duration:1ms;animation-iteration-count:1}}
+.tree-animation{position:absolute;inset:0;z-index:4;display:grid;place-items:center;overflow:auto;padding:16px;background:radial-gradient(ellipse at 50% 42%,#092c38ed,#050d1af7 72%);color:#dffbf0;backdrop-filter:blur(6px)}.tree-animation[hidden]{display:none}.tree-animation::before,.tree-animation::after{position:absolute;inset:0;pointer-events:none;content:""}.tree-animation::before{background:linear-gradient(#38f8d20a 1px,transparent 1px),linear-gradient(90deg,#38f8d20a 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent);animation:tree-grid-pulse 3s ease-in-out infinite alternate}.tree-animation::after{inset:-40% 0 auto;height:30%;background:linear-gradient(transparent,#39f9e01c,transparent);animation:tree-scan 4s linear infinite}.tree-animation-card{position:relative;z-index:1;width:min(680px,100%);max-height:100%;overflow:auto;padding:clamp(18px,4vw,30px);border:1px solid #46f7d366;border-radius:14px;background:linear-gradient(145deg,#092633f5,#101929f7 72%);box-shadow:0 0 42px #00ffc02a,inset 0 0 28px #00ffc00d;animation:tree-card-in .5s cubic-bezier(.2,.8,.2,1) both}.tree-animation-card::before,.tree-animation-card::after{position:absolute;width:24px;height:24px;pointer-events:none;content:""}.tree-animation-card::before{top:-1px;left:-1px;border-top:2px solid #7dffe3;border-left:2px solid #7dffe3;filter:drop-shadow(0 0 5px #3fffd4)}.tree-animation-card::after{right:-1px;bottom:-1px;border-right:2px solid #7dffe3;border-bottom:2px solid #7dffe3;filter:drop-shadow(0 0 5px #3fffd4)}.tree-animation-top,.tree-animation-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#67dcb4;font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.3px}.tree-animation-online{display:flex;align-items:center;gap:7px}.tree-animation-online i{width:7px;height:7px;border-radius:50%;background:#83ffbb;box-shadow:0 0 10px #83ffbb;animation:tree-live 1s steps(2) infinite}.tree-animation-counter{color:#a5f3fc}.tree-animation-kicker{margin-top:16px;color:#5be6bd;font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.8px}.tree-animation-title{display:block;margin:5px 0;color:#d7fff1;font-size:clamp(21px,4vw,30px);text-shadow:0 0 15px #35f5d477}.tree-animation-step{min-height:22px;color:#93c5fd;font-size:13px}.tree-animation-tree{min-height:150px;max-height:38vh;overflow:auto;margin:14px 0 10px;padding:14px;border:1px solid #36d8c255;border-radius:10px;background:linear-gradient(120deg,#061522,#081b28);color:#c8f8ee;font:13px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;overflow-wrap:normal;box-shadow:inset 0 0 20px #00ffc012}.tree-animation-tree.reveal{animation:tree-reveal .45s ease both}.tree-animation-line{display:block;min-height:1.9em;animation:tree-node-reveal .35s ease both;animation-delay:calc(var(--line-index)*75ms)}.tree-animation-line:last-child{color:#8dffcc;text-shadow:0 0 9px #35f5d477}.tree-animation-progress{height:5px;margin-top:12px;overflow:hidden;border:1px solid #287268;background:#0a1e2a}.tree-animation-progress i{position:relative;display:block;width:0;height:100%;background:linear-gradient(90deg,#28d8c0,#9bffcf);box-shadow:0 0 14px #00ffc0;transition:width .45s ease}.tree-animation-progress i::after{position:absolute;top:0;right:0;bottom:0;width:38px;background:#e2fff4;box-shadow:0 0 12px 3px #8affdc;content:""}.tree-animation-foot{margin-top:10px;color:#6b9f9e;font-size:9px}
+@keyframes tree-node-light{from{text-shadow:none}to{text-shadow:0 0 11px #61ffe0,0 0 20px #61ffe077}}
+@media(prefers-reduced-motion:reduce){.tree-animation-line{animation-duration:1ms;animation-iteration-count:1}.tree-animation-progress i{transition-duration:1ms}}
+.tree-animation{backdrop-filter:none;overflow:hidden;padding:8px}.tree-animation::after{display:none;animation:none}.tree-animation::before,.tree-animation-card,.tree-animation-online i,.tree-animation-tree.reveal{animation:none}.tree-animation-card{max-height:100%;overflow:hidden;padding:clamp(6px,2vw,16px)}.tree-animation-card::before{top:0;left:0}.tree-animation-card::after{right:0;bottom:0}.tree-animation-kicker{margin-top:10px}.tree-animation-title{margin:3px 0;font-size:clamp(18px,4vw,26px)}.tree-animation-step{min-height:18px}.tree-animation-tree{height:228px;min-height:0;max-height:none;overflow:visible;margin:10px 0 8px;padding:10px;font-size:clamp(10px,2.5vw,12px);line-height:1.25;white-space:pre-wrap;overflow-wrap:anywhere}.tree-animation-line{min-height:1.25em}.tree-animation-progress{margin-top:8px}.tree-animation-foot{margin-top:8px}.tree-animation-line{animation:tree-node-light .45s ease both;animation-delay:calc(var(--line-index)*75ms)}@media(prefers-reduced-motion:reduce){.tree-animation-line{animation-duration:1ms}}
+.prime-vault{margin-top:14px;padding:16px;border:1px solid #23f4b044;border-radius:14px;background:linear-gradient(145deg,#071b22,#0a1422 68%);box-shadow:inset 0 0 28px #00ffc00d,0 8px 26px #0003}.prime-vault-header{display:flex;align-items:center;justify-content:space-between;gap:12px}.prime-vault-kicker,.prime-deck-label,.bin-copy>span{color:#5be6bd;font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1.5px}.prime-vault h2{margin:3px 0 0;color:#d7fff1;font-size:20px;letter-spacing:1px;text-shadow:0 0 12px #00ffc044}.prime-vault-counter{display:flex;align-items:baseline;gap:6px;color:#75b9a2;font-size:11px}.prime-vault-counter strong{color:#8dffcc;font:700 19px ui-monospace,SFMono-Regular,Consolas,monospace}.prime-progress-track{height:3px;margin:12px 0;background:#17352f}.prime-progress-track i{display:block;width:0;height:100%;background:#48ffc0;box-shadow:0 0 10px #00ffc0;transition:width .5s ease}.prime-vault .bin{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px dashed #35f0b577;border-radius:10px;background:linear-gradient(100deg,#0b282b,#0c1a25);text-align:left}.bin-emoji{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border:1px solid #42ffc466;border-radius:10px;color:#7affcd;font:700 20px ui-monospace,SFMono-Regular,Consolas,monospace;text-shadow:0 0 12px #00ffc0;box-shadow:inset 0 0 14px #00ffc022}.bin-copy{flex:1;min-width:0}.bin-copy strong{display:block;margin:2px 0;color:#d7fff1;font-size:15px}.bin-copy p{margin:0;color:#8fbbaa;font-size:11px}.btn.prime-action{border:1px solid #32f0b4;background:linear-gradient(135deg,#0d584b,#073b3e);color:#caffed;box-shadow:0 0 16px #00ffc022;white-space:nowrap}.btn.prime-action:hover{box-shadow:0 0 22px #00ffc055}.prime-deck-label{display:flex;justify-content:space-between;margin:16px 0 8px;color:#72a998;font-size:9px}.prime-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}.prime-card{height:76px;min-width:0;perspective:700px}.prime-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.8,.2,1)}.prime-card.flipped .prime-card-inner{transform:rotateY(180deg)}.prime-card-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden;padding:7px 3px;border:1px solid #32dca844;border-radius:8px;backface-visibility:hidden;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.prime-card-back{background:linear-gradient(145deg,#123438,#091a27);color:#39cda5}.prime-card-back::before{position:absolute;inset:3px;border:1px solid #38d5a533;border-radius:5px;background:repeating-linear-gradient(135deg,transparent 0 5px,#3df7bc0d 5px 7px);content:""}.prime-card-back span,.prime-card-back strong{position:relative}.prime-card-back span,.prime-card-front span,.prime-card-front small{font-size:7px;letter-spacing:.7px}.prime-card-back strong{display:grid;place-items:center;width:25px;height:25px;border:1px solid #43daa577;border-radius:50%;font-size:14px;box-shadow:0 0 12px #00ffc022}.prime-card-front{transform:rotateY(180deg);border-color:#72ffb7;background:radial-gradient(circle at 50% 35%,#18583f,#081e23 80%);color:#baffcb;box-shadow:inset 0 0 16px #46ff9b22,0 0 12px #35ff9b33}.prime-card-front::before{position:absolute;inset:4px;border:1px solid #a4ff6844;border-radius:5px;content:""}.prime-card-front span,.prime-card-front strong,.prime-card-front small{position:relative}.prime-card-front strong{font:800 24px/1 system-ui,sans-serif;text-shadow:0 0 10px #56ff9c}.prime-card-front small{color:#6be8a1}
+@media(max-width:600px){.prime-vault{padding:11px}.prime-vault .bin{display:grid;grid-template-columns:42px 1fr;gap:10px}.bin-emoji{width:42px;height:42px;flex-basis:42px}.bin-copy p{font-size:10px}.btn.prime-action{grid-column:1/-1;width:100%}.prime-cards{grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:6px}.prime-card{height:70px}}
+@media(prefers-reduced-motion:reduce){.prime-progress-track i,.prime-card-inner{transition-duration:1ms}}
+.factor-tree{margin:0;padding:10px;background:#0c1727;border:1px solid #293e5b;border-radius:10px;color:#cfe2fc;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;min-height:44px}.group-chip.magnet{background:#123a49;border-color:#0891b2;color:#a5f3fc}
+.finish-section{text-align:center}.btn.finish-groups{min-height:68px;font-size:20px;letter-spacing:1px;color:#17233a;background:linear-gradient(135deg,#fde047,#fb923c);border:1px solid #fde68a;box-shadow:0 6px 24px #f59e0b66}.btn.finish-groups:disabled{opacity:.55;filter:saturate(.6);box-shadow:none}.finish-hint{margin-top:5px}.finish-section .prime-action{width:100%;min-height:52px;margin-top:8px;white-space:normal}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px}.mode-switch .btn{padding:9px 7px}.btn[aria-pressed="true"]{border-color:#60a5fa;background:#234b78;box-shadow:inset 0 0 0 1px #60a5fa55}.queue-controls{margin-top:12px;padding:12px;border:1px solid #345273;border-radius:11px;background:#102239}.queue-controls[hidden]{display:none}.queue-controls label{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:700}.queue-controls output{color:#93c5fd;font-variant-numeric:tabular-nums}.queue-controls input{width:100%;margin:12px 0 2px;accent-color:#60a5fa}.group-chip.queue{background:#263b65;border-color:#818cf8;color:#dbeafe}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.side-panel .wide{grid-column:1/-1}canvas{height:480px}}
+@media(max-width:560px){.app{padding:10px}.top{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}.side-panel{display:flex}canvas{height:430px}.formula{align-items:flex-start;flex-direction:column}.formula-note{text-align:left}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">⚪</div><div><h1>FACTOR BALL 因數球球</h1><p>把數字變成球，親手找出因數與質數！</p></div></div>
+    <div class="stats">
+      <div class="stat"><small>目前球數</small><strong id="ballCount">48</strong></div>
+      <div class="stat"><small>得分</small><strong id="score">0</strong></div>
+      <div class="stat"><small>消球次數</small><strong id="rounds">0</strong></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="main-panel">
+      <div class="formula">
+        <div><div class="formula-label">因數分解紀錄</div><div class="formula-main" id="formula">48 = <span style="color:#fbbf24">?</span></div></div>
+        <div class="formula-note" id="formulaNote">整理磁吸群組，讓各組球數相同</div>
+      </div>
+      <div class="stage-wrap">
+        <div class="stage-head"><span id="modeLabel">拖曳球體整理磁吸群組</span><span id="stageCount">48 BALLS</span></div>
+        <canvas id="game" aria-label="因數球球遊戲平台"></canvas>
+        <div class="fireworks" id="fireworks" hidden aria-live="assertive">
+          <div class="fireworks-hud">
+            <div class="fireworks-head"><span class="online">LINK ESTABLISHED</span><span>SYS://FACTOR_CORE</span></div>
+            <div class="fireworks-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="fireworks-kicker">TARGET LOCKED // GROUPS IN SYNC</div>
+            <strong class="fireworks-title" data-text="分組完成">分組完成</strong>
+            <span class="fireworks-note" id="fireworksNote"></span>
+            <div class="fireworks-progress"><i></i></div>
+            <div class="fireworks-foot"><span>完成分組 // 消球程序啟動中</span><span>EXEC <b class="fireworks-cursor">_</b></span></div>
+          </div>
+        </div>
+        <div class="tree-animation" id="treeAnimation" role="dialog" aria-modal="true" aria-labelledby="treeAnimationTitle" hidden aria-live="polite">
+          <div class="tree-animation-card">
+            <div class="tree-animation-top">
+              <span class="tree-animation-online"><i></i>FACTOR CORE // ONLINE</span>
+              <span class="tree-animation-counter" id="treeAnimationCounter"></span>
+            </div>
+            <div class="tree-animation-kicker">ELIMINATION ORDER // FACTOR TREE</div>
+            <strong class="tree-animation-title" id="treeAnimationTitle">因數樹逐步完成</strong>
+            <div class="tree-animation-step" id="treeAnimationStep"></div>
+            <div class="tree-animation-tree" id="treeAnimationTree"></div>
+            <div class="tree-animation-progress"><i id="treeAnimationProgress"></i></div>
+            <div class="tree-animation-foot"><span id="treeAnimationFoot">FACTORING SEQUENCE IN PROGRESS</span><span>SYS://TREE_RENDER</span></div>
+          </div>
+        </div>
+      </div>
+      <section class="prime-vault" aria-labelledby="primeVaultTitle">
+        <div class="prime-vault-header">
+          <div><div class="prime-vault-kicker">PRIME ARCHIVE // RANGE 01—200</div><h2 id="primeVaultTitle">質數資料庫</h2></div>
+          <div class="prime-vault-counter"><strong id="primeProgress">0 / 46</strong><span>已解鎖</span></div>
+        </div>
+        <div class="prime-progress-track" id="primeProgressTrack" role="progressbar" aria-label="已解鎖質數卡牌" aria-valuemin="0" aria-valuemax="46" aria-valuenow="0"><i id="primeProgressBar"></i></div>
+        <!-- <div class="bin">
+          <div class="bin-emoji" aria-hidden="true">&gt;_</div>
+          <div class="bin-copy"><span>PRIME INPUT // READY</span><strong>質數投遞端</strong><p>目前球數為質數時，驗證並投入即可解鎖對應卡牌。</p></div>
+        </div> -->
+        <div class="prime-deck-label"><span>ENCRYPTED PRIME CARDS</span><span>46 CARDS</span></div>
+        <div class="prime-cards" id="primeCards" aria-label="1 到 200 之間的質數撲克牌"></div>
+      </section>
+      <div class="footer-note" id="footerNote">拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按下「完成分組」即可消除多餘群組。</div>
+    </main>
+
+    <aside class="side-panel">
+      <section class="wide finish-section">
+        <button class="btn full finish-groups" id="finishGroups" type="button" disabled aria-describedby="finishGroupsHint">完成分組</button>
+        <p class="hint finish-hint" id="finishGroupsHint">至少兩組等量球體後，即可按下消去球。</p>
+        <button class="btn prime-action" style="font-size: 20px;" id="primeBin" type="button">球是質數</button>
+      </section>
+      <section class="wide">
+        <div class="section-title">球體分組模式</div>
+        <div class="mode-switch" role="group" aria-label="選擇球體分組模式">
+          <button class="btn" id="freeMode" type="button" aria-pressed="true">自由磁吸</button>
+          <button class="btn" id="queueMode" type="button" aria-pressed="false">隊列模式</button>
+        </div>
+        <div class="queue-controls" id="queueControls" hidden>
+          <label for="queueRows">排列列數 <output id="queueRowsValue" for="queueRows">2 列</output></label>
+          <input id="queueRows" type="range" min="2" max="2" value="2" step="1" aria-describedby="queueHint">
+          <p class="hint" id="queueHint">每列為一組，系統會平均分配球數；各列球數相同後，按「完成分組」即可消球。</p>
+        </div>
+      </section>
+      <section class="wide">
+        <div class="section-title">磁力吸引</div>
+        <p class="hint">磁力會吸引附近球體。整理出至少兩組、每組至少兩顆且球數相同後，按下「完成分組」即可消球。</p>
+      </section>
+      <section class="wide">
+        <div class="section-title">磁吸群組（自動更新球數）</div>
+        <div class="group-list" id="magnetClusterList" aria-live="polite"><span class="hint">靠近的球會自動成組</span></div>
+      </section>
+      <div class="divider wide"></div>
+      <section class="wide">
+        <div class="section-title">因數樹</div>
+        <pre class="factor-tree" id="factorTree">完成分解後顯示完整因數樹</pre>
+      </section>
+      <div class="divider wide"></div>
+      <section class="wide">
+        <div class="section-title">遊戲訊息</div>
+        <div class="status" id="status" role="status">歡迎來到因數球球！整理出等量磁吸群組後，按下「完成分組」即可消球。</div>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+  const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
+  const $ = id => document.getElementById(id);
+  const colors = ['#60a5fa','#fbbf24','#34d399','#f472b6','#a78bfa','#fb923c','#22d3ee','#f87171'];
+  let balls=[], score=0, rounds=0, currentSelection=[], drag=null, W=900,H=560, lastTime=0, formulaFactors=[], factorTree=null, activeFactorNode=null, factorTreeHistory=[], eliminationSteps=[], gameComplete=false, magnetClusterSignature=null, isCelebrating=false, celebrationTimer=null, shatterTimer=null, nextGameTimer=null, shatterEffects=[], shatteringIds=new Set(), shatterStartedAt=0;
+  let groupingMode='free', queueRows=2, canCompleteGroups=false;
+  const radius=11, gravity=0.0, friction=0.992;
+  const magnetRange=120, magnetStrength=0.045, magnetClusterGap=8;
+  const shatterDuration=700;
+  let dpr=1;
+
+  function resize(){
+    const rect=canvas.getBoundingClientRect(); dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr);
+    W=rect.width; H=rect.height; ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(groupingMode==='queue'&&balls.length){layoutQueueBalls();syncModeUI()}
+    else if(balls.length) balls.forEach(b=>{b.x=Math.min(Math.max(radius,b.x),W-radius);b.y=Math.min(Math.max(radius,b.y),H-radius)});
+  }
+  function completeFactorTree(node){
+    if(!node.children&&!isPrime(node.value)){
+      for(let factor=2;factor*factor<=node.value;factor++){
+        if(node.value%factor===0){
+          node.children=[{value:factor,children:null},{value:node.value/factor,children:null}];
+          break;
+        }
+      }
+    }
+    if(node.children)node.children.forEach(completeFactorTree);
+  }
+  function cloneFactorTree(node){
+    return{value:node.value,children:node.children?node.children.map(cloneFactorTree):null};
+  }
+  function factorTreeText(node,completed){
+    const lines=[];
+    function visit(current,prefix,isLast,isRoot){
+      const label=String(current.value)+(current.children?'':isPrime(current.value)?' (質數)':completed?'':' (待分解)');
+      lines.push(isRoot?label:prefix+(isLast?'└─ ':'├─ ')+label);
+      if(current.children)current.children.forEach((child,index)=>visit(child,isRoot?'':prefix+(isLast?'   ':'│  '),index===current.children.length-1,false));
+    }
+    visit(node,'',true,true);
+    return lines.join('\n');
+  }
+  function getPrimeLeaves(node){
+    if(!node.children)return [node.value];
+    return node.children.flatMap(getPrimeLeaves);
+  }
+  function renderFactorTree(){
+    if(!factorTree){$('factorTree').textContent='完成分解後顯示完整因數樹';return}
+    $('factorTree').textContent=factorTreeText(factorTree,gameComplete);
+  }
+  function animateCompletedFactorTree(primeValue){
+    const states=factorTreeHistory.map(cloneFactorTree);
+    states.push(cloneFactorTree(factorTree));
+    const overlay=$('treeAnimation'),tree=$('treeAnimationTree');
+    let index=0;
+    overlay.hidden=false;
+    function revealStep(){
+      const isFinal=index===states.length-1;
+      const lines=factorTreeText(states[index],isFinal).split('\n');
+      tree.replaceChildren(...lines.map((text,lineIndex)=>{
+        const line=document.createElement('span');
+        line.className='tree-animation-line';
+        line.style.setProperty('--line-index',lineIndex);
+        line.textContent=text;
+        return line;
+      }));
+      $('treeAnimationTitle').textContent=isFinal?'因數樹同步完成':'因數樹逐步完成';
+      $('treeAnimationStep').textContent=index===0
+        ?`起始球數：${states[index].value}`
+        :index<=eliminationSteps.length
+          ?`第 ${index} 次消球：${eliminationSteps[index-1].groupCount} 組 × 每組 ${eliminationSteps[index-1].each} 顆`
+          :`最後剩下 ${primeValue} 顆質數球，因數樹完成。`;
+      $('treeAnimationCounter').textContent=isFinal?'TREE LOCKED':`STEP ${String(index+1).padStart(2,'0')} / ${String(states.length).padStart(2,'0')}`;
+      $('treeAnimationFoot').textContent=isFinal?'FACTOR TREE // SEQUENCE VERIFIED':'FACTORING SEQUENCE IN PROGRESS';
+      $('treeAnimationProgress').style.width=`${(index+1)/states.length*100}%`;
+      if(isFinal){
+        nextGameTimer=setTimeout(()=>{
+          overlay.hidden=true;nextGameTimer=null;
+          startGame(Math.floor(Math.random()*199)+2);
+        },1800);
+      }else{
+        nextGameTimer=setTimeout(()=>{index++;revealStep()},650);
+      }
+    }
+    revealStep();
+  }
+  window.addEventListener('resize',resize); resize();
+
+  function setStatus(s){$('status').textContent=s}
+  function toast(s){const el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2100)}
+  function updateUI(){
+    $('ballCount').textContent=balls.length; $('stageCount').textContent=balls.length+' BALLS';
+    $('score').textContent=score; $('rounds').textContent=rounds;
+    syncModeUI();
+    if(gameComplete){
+      $('formula').innerHTML=`${factorTree.value} = <span class="keep">${getPrimeLeaves(factorTree).join(' × ')}</span>`;
+    }else{
+      $('formula').innerHTML=formulaFactors.length?`${factorTree.value} = ${formulaFactors.join(' × ')} × <span class="keep">${balls.length}</span>`:`<span>${balls.length}</span> = <span style="color:#fbbf24">?</span>`;
+    }
+    renderFactorTree();
+  }
+  function makeBalls(n){
+    balls=[];currentSelection=[];formulaFactors=[];drag=null;factorTree={value:n,children:null};activeFactorNode=factorTree;gameComplete=false;canCompleteGroups=false;magnetClusterSignature=null;
+    factorTreeHistory=[cloneFactorTree(factorTree)];eliminationSteps=[];
+    const cols=Math.ceil(Math.sqrt(n*W/H)), rows=Math.ceil(n/cols);
+    const cellW=(W-70)/cols,cellH=(H-70)/rows;
+    for(let i=0;i<n;i++){
+      const c=i%cols,r=Math.floor(i/cols);
+      balls.push({id:i,x:35+c*cellW+Math.random()*Math.max(4,cellW-25),y:45+r*cellH+Math.random()*Math.max(4,cellH-25),vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,r:radius,color:colors[i%colors.length]});
+    }
+    if(groupingMode==='queue'){
+      const bounds=getQueueRowBounds(n);
+      queueRows=Math.min(bounds.max,Math.max(bounds.min,Math.round(Math.sqrt(n*H/W))));
+      layoutQueueBalls();
+    }
+    updateUI();draw();
+  }
+  function startGame(n){
+    clearTimeout(celebrationTimer);celebrationTimer=null;clearTimeout(shatterTimer);shatterTimer=null;clearTimeout(nextGameTimer);nextGameTimer=null;isCelebrating=false;shatterEffects=[];shatteringIds.clear();$('fireworks').classList.remove('prime-found');$('fireworks').hidden=true;
+    document.querySelector('.fireworks-kicker').textContent='TARGET LOCKED // GROUPS IN SYNC';
+    const fireworksTitle=$('fireworks').querySelector('.fireworks-title');
+    fireworksTitle.textContent='分組完成';fireworksTitle.dataset.text='分組完成';
+    $('fireworksNote').textContent='';
+    document.querySelector('.fireworks-foot span').textContent='分組確認 // 消球程序啟動中';
+    syncModeUI();
+    $('formulaNote').textContent=groupingMode==='queue'?'調整列數，讓各列球數相同以完成分組':'整理磁吸群組，讓各組球數相同';
+    makeBalls(n);setStatus(groupingMode==='queue'?`新挑戰開始！平台上有 ${n} 顆球，調整列數讓每列球數相同後，按下「完成分組」即可消球。`:`新挑戰開始！平台上有 ${n} 顆球，整理出等量磁吸群組後，按下「完成分組」即可消球。`);updateUI();
+  }
+  function getQueueRowBounds(count=balls.length){
+    const n=Math.max(1,count),min=2;
+    const max=Math.max(min,Math.min(Math.floor(n/2),Math.floor(Math.max(1,H-82)/(radius*2))+1));
+    return{min,max};
+  }
+  function layoutQueueBalls(){
+    if(!balls.length)return;
+    const bounds=getQueueRowBounds();
+    queueRows=Math.min(bounds.max,Math.max(bounds.min,queueRows));
+    const baseSize=Math.floor(balls.length/queueRows),largerRows=balls.length%queueRows;
+    const maxRowSize=Math.ceil(balls.length/queueRows);
+    const rowRadius=Math.min(radius,Math.max(.5,(W-48)/(maxRowSize*2)));
+    const maxRowSpacing=rowRadius*4;
+    let offset=0;
+    for(let row=0;row<queueRows;row++){
+      const rowSize=baseSize+(row<largerRows?1:0);
+      const spacing=rowSize===1?0:Math.min(radius*2+8,(W-48)/(rowSize-1));
+      const rowSpacing=Math.min(maxRowSpacing,(H-82)/(queueRows-1));
+      const y=H/2+11+(row-(queueRows-1)/2)*rowSpacing;
+      for(let column=0;column<rowSize;column++){
+        const ball=balls[offset++];
+        ball.queueRow=row;
+        ball.r=rowRadius;
+        ball.x=W/2+(column-(rowSize-1)/2)*spacing;
+        ball.y=y;ball.vx=0;ball.vy=0;
+      }
+    }
+  }
+  function syncModeUI(){
+    const queue=groupingMode==='queue';
+    $('freeMode').setAttribute('aria-pressed',String(!queue));
+    $('queueMode').setAttribute('aria-pressed',String(queue));
+    $('freeMode').disabled=$('queueMode').disabled=isCelebrating||gameComplete;
+    $('finishGroups').disabled=!canCompleteGroups||isCelebrating||gameComplete;
+    $('queueControls').hidden=!queue;
+    $('queueRows').disabled=isCelebrating||gameComplete;
+    const bounds=getQueueRowBounds();
+    queueRows=Math.min(bounds.max,Math.max(bounds.min,queueRows));
+    $('queueRows').min=bounds.min;$('queueRows').max=bounds.max;
+    $('queueRows').value=queueRows;
+    $('queueRowsValue').textContent=`${queueRows} 列`;
+    $('modeLabel').textContent=queue?'隊列模式：每列為一個分組':'自由磁吸模式：拖曳球體整理群組';
+    $('footerNote').textContent=queue?'使用列數拉條排列球體；每列為一組，各列球數相同時按「完成分組」消除多餘列。':'拖曳球體或框選多顆球來整理；形成至少兩個等量磁吸群組後，按「完成分組」消除多餘群組。';
+    canvas.style.cursor=queue?'default':'crosshair';
+  }
+  function setGroupingMode(mode){
+    if(isCelebrating||gameComplete||groupingMode===mode)return;
+    groupingMode=mode;currentSelection=[];drag=null;magnetClusterSignature=null;
+    if(mode==='queue')layoutQueueBalls();
+    else balls.forEach(ball=>{ball.r=radius});
+    $('formulaNote').textContent=mode==='queue'?'調整列數，讓各列球數相同以完成分組':'整理磁吸群組，讓各組球數相同';
+    syncModeUI();draw();
+    setStatus(mode==='queue'?'已切換至隊列模式；調整列數即可排列球體，每列是一個分組。':'已切換至自由磁吸模式；可拖曳球體或框選球體整理群組。');
+  }
+  $('freeMode').addEventListener('click',()=>setGroupingMode('free'));
+  $('queueMode').addEventListener('click',()=>setGroupingMode('queue'));
+  $('queueRows').addEventListener('input',()=>{
+    queueRows=Number($('queueRows').value);
+    layoutQueueBalls();magnetClusterSignature=null;updateUI();draw();
+  });
+  $('finishGroups').addEventListener('click',()=>{
+    const clusters=getMagnetClusters();
+    if(!hasEqualGroups(clusters))return;
+    finishGrouping(clusters);
+  });
+  function isPrime(n){if(n<2)return false;for(let i=2;i*i<=n;i++)if(n%i===0)return false;return true}
+  const primeNumbers=Array.from({length:199},(_,i)=>i+2).filter(isPrime);
+  const foundPrimes=new Set();
+  function updatePrimeProgress(){
+    const count=foundPrimes.size,total=primeNumbers.length;
+    $('primeProgress').textContent=`${count} / ${total}`;
+    $('primeProgressTrack').setAttribute('aria-valuenow',String(count));
+    $('primeProgressBar').style.width=`${count/total*100}%`;
+  }
+  function renderPrimeCards(){
+    $('primeCards').innerHTML=primeNumbers.map(n=>`<div class="prime-card" id="prime-card-${n}" role="img" aria-label="尚未解鎖的質數卡牌"><div class="prime-card-inner"><div class="prime-card-face prime-card-back"><span>FACTOR</span><strong>?</strong><span>LOCKED</span></div><div class="prime-card-face prime-card-front"><span>PRIME</span><strong>${n}</strong><small>UNLOCKED</small></div></div></div>`).join('');
+    updatePrimeProgress();
+  }
+  function revealPrimeCard(n){
+    if(foundPrimes.has(n)||!primeNumbers.includes(n))return;
+    foundPrimes.add(n);
+    const card=$(`prime-card-${n}`);
+    card.classList.add('flipped');
+    card.setAttribute('aria-label',`已解鎖的質數卡牌：${n}`);
+    updatePrimeProgress();
+  }
+  function pos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+  function hitBall(x,y){for(let i=balls.length-1;i>=0;i--){const b=balls[i];if(Math.hypot(b.x-x,b.y-y)<b.r+5)return b}return null}
+  function rectIds(a,b){const x1=Math.min(a.x,b.x),x2=Math.max(a.x,b.x),y1=Math.min(a.y,b.y),y2=Math.max(a.y,b.y);return balls.filter(o=>o.x>=x1&&o.x<=x2&&o.y>=y1&&o.y<=y2).map(o=>o.id)}
+  canvas.addEventListener('pointerdown',e=>{
+    if(isCelebrating||gameComplete||groupingMode==='queue')return;
+    const p=pos(e),b=hitBall(p.x,p.y);canvas.setPointerCapture(e.pointerId);
+    if(b){const ids=currentSelection.includes(b.id)?[...currentSelection]:[b.id];drag={type:'move',last:p,ids};currentSelection=ids}
+    else{drag={type:'marquee',start:p,end:p};currentSelection=[]}
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!drag)return;const p=pos(e);
+    if(drag.type==='move'){
+      const dx=p.x-drag.last.x,dy=p.y-drag.last.y;
+      drag.ids.forEach(id=>{const b=balls.find(o=>o.id===id);if(b){b.x=Math.max(b.r,Math.min(W-b.r,b.x+dx));b.y=Math.max(b.r,Math.min(H-b.r,b.y+dy));b.vx=dx*.45;b.vy=dy*.45}});
+      drag.last=p;
+    }else{drag.end=p;currentSelection=rectIds(drag.start,drag.end)}
+    updateUI();
+  });
+  function endPointer(){if(drag?.type==='move'){drag.ids.forEach(id=>{const b=balls.find(o=>o.id===id);if(b){b.vx*=.6;b.vy*=.6}})}drag=null}
+  canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',endPointer);
+
+  function hasEqualGroups(clusters){
+    if(isCelebrating||gameComplete||clusters.length<2)return false;
+    const each=clusters[0].length;
+    return each>=2&&clusters.every(cluster=>cluster.length===each);
+  }
+  function updateCompleteGroupsButton(clusters){
+    const available=hasEqualGroups(clusters);
+    if(canCompleteGroups!==available){
+      canCompleteGroups=available;
+      $('finishGroupsHint').textContent=available?'分組條件達成，按下「完成分組」立即消球。':'至少兩組等量球體後，即可按下消去球。';
+    }
+    $('finishGroups').disabled=!available||isCelebrating||gameComplete;
+  }
+  function finishGrouping(clusters){
+    if(!hasEqualGroups(clusters))return;
+    const each=clusters[0].length;
+    const groupCount=clusters.length,clusterIds=clusters.map(cluster=>cluster.map(b=>b.id));
+    isCelebrating=true;currentSelection=[];drag=null;
+    canCompleteGroups=false;
+    syncModeUI();
+    $('fireworks').hidden=true;
+    finishGroupRemoval(clusterIds,groupCount,each);
+  }
+  function finishGroupRemoval(clusterIds,groupCount,each){
+    if(!isCelebrating)return;
+    const keepIds=new Set(clusterIds[clusterIds.length-1]);
+    const removeIds=new Set(clusterIds.slice(0,-1).flat());
+    shatteringIds=new Set(removeIds);
+    shatterEffects=balls.filter(b=>removeIds.has(b.id)).map(b=>({...b,phase:Math.random()*Math.PI*2}));
+    shatterStartedAt=performance.now();
+    $('fireworks').hidden=true;
+    setStatus(`${removeIds.size} 顆球正在碎裂消失。`);
+    celebrationTimer=null;
+    shatterTimer=setTimeout(()=>completeGroupRemoval(keepIds,removeIds,groupCount,each),shatterDuration);
+  }
+  function completeGroupRemoval(keepIds,removeIds,groupCount,each){
+    if(!isCelebrating)return;
+    balls=balls.filter(b=>keepIds.has(b.id));
+    canCompleteGroups=false;
+    if(groupingMode==='queue')layoutQueueBalls();
+    shatterEffects=[];shatteringIds.clear();
+    activeFactorNode.children=[{value:groupCount,children:null},{value:each,children:null}];
+    activeFactorNode=activeFactorNode.children[1];
+    eliminationSteps.push({groupCount,each});
+    factorTreeHistory.push(cloneFactorTree(factorTree));
+    formulaFactors.push(String(groupCount));
+    score+=10+removeIds.size;rounds++;
+    isCelebrating=false;shatterTimer=null;
+    currentSelection=[];drag=null;magnetClusterSignature=null;
+    $('formulaNote').textContent=`${groupCount} 組 × 每組 ${each} 顆；消除 ${groupCount-1} 組，保留 ${each} 顆`;
+    setStatus(`已消除 ${removeIds.size} 顆，保留 ${each} 顆。繼續整理磁吸群組。`);
+    updateUI();
+  }
+  $('primeBin').onclick=()=>{
+    if(gameComplete||isCelebrating)return;
+    const n=balls.length;
+    if(isPrime(n)){
+      score+=20+ n*2;balls=[];currentSelection=[];rounds++;
+      revealPrimeCard(n);
+      gameComplete=true;completeFactorTree(factorTree);
+      $('formulaNote').textContent='分解完成，已展開完整因數樹';
+      setStatus(`太棒了！${n} 是質數，成功投入質數垃圾桶！完整因數樹已保留，稍後開始隨機新挑戰。`);
+      const fireworksTitle=$('fireworks').querySelector('.fireworks-title');
+      document.querySelector('.fireworks-kicker').textContent='PRIME FOUND // TARGET VERIFIED';
+      fireworksTitle.textContent='發現質數!!';fireworksTitle.dataset.text='發現質數!!';
+      $('fireworksNote').textContent=`${n} 是質數！解鎖卡牌。`;
+      document.querySelector('.fireworks-foot span').textContent='質數驗證成功 // ARCHIVE UPDATED';
+      $('fireworks').classList.add('prime-found');
+      $('fireworks').hidden=false;
+      celebrationTimer=setTimeout(()=>{
+        $('fireworks').hidden=true;celebrationTimer=null;
+        animateCompletedFactorTree(n);
+      },3400);
+      updateUI();
+    }else{
+      score=Math.max(0,score-15);updateUI();setStatus(`${n} 不是質數！球體留在平台上，扣除 15 分。試著繼續分解。`);toast(`${n} 不是質數，-15 分`);
+      if(groupingMode==='free')balls.forEach(b=>{b.vx+=(Math.random()-.5)*3;b.vy+=(Math.random()-.5)*3});
+    }
+  };
+  function physics(dt){
+    if(isCelebrating||gameComplete||groupingMode==='queue'||drag?.type==='marquee')return;
+    const step=Math.min(dt/16.67,2);
+    for(const b of balls){
+      if(drag?.type==='move'&&drag.ids.includes(b.id))continue;
+      b.vy+=gravity*step;b.vx*=Math.pow(friction,step);b.vy*=Math.pow(friction,step);
+      b.x+=b.vx*step;b.y+=b.vy*step;
+      if(b.x<b.r){b.x=b.r;b.vx=Math.abs(b.vx)*.8}if(b.x>W-b.r){b.x=W-b.r;b.vx=-Math.abs(b.vx)*.8}
+      if(b.y<b.r){b.y=b.r;b.vy=Math.abs(b.vy)*.8}if(b.y>H-b.r){b.y=H-b.r;b.vy=-Math.abs(b.vy)*.78}
+    }
+    for(let i=0;i<balls.length;i++)for(let j=i+1;j<balls.length;j++){
+      const a=balls[i],b=balls[j];
+      if(drag?.type==='move'&&(drag.ids.includes(a.id)||drag.ids.includes(b.id)))continue;
+      const dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy);
+      if(dist>0&&dist<magnetRange){
+        const pull=magnetStrength*(1-dist/magnetRange)*step,nx=dx/dist,ny=dy/dist;
+        a.vx+=nx*pull;a.vy+=ny*pull;b.vx-=nx*pull;b.vy-=ny*pull;
+      }
+    }
+    // Lightweight circle collision response.
+    for(let i=0;i<balls.length;i++)for(let j=i+1;j<balls.length;j++){
+      const a=balls[i],b=balls[j],dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy),min=a.r+b.r;
+      if(dist>0&&dist<min){const nx=dx/dist,ny=dy/dist,over=(min-dist)/2;a.x-=nx*over;a.y-=ny*over;b.x+=nx*over;b.y+=ny*over;const rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;if(rel<0){a.vx+=rel*nx*.8;a.vy+=rel*ny*.8;b.vx-=rel*nx*.8;b.vy-=rel*ny*.8}}
+    }
+  }
+  function getMagnetClusters(){
+    if(groupingMode==='queue'){
+      const groups=Array.from({length:queueRows},()=>[]);
+      balls.forEach(ball=>groups[ball.queueRow].push(ball));
+      return groups;
+    }
+    const candidates=balls.filter(b=>!shatteringIds.has(b.id)),parents=candidates.map((_,i)=>i);
+    function find(i){while(parents[i]!==i){parents[i]=parents[parents[i]];i=parents[i]}return i}
+    for(let i=0;i<candidates.length;i++)for(let j=i+1;j<candidates.length;j++){
+      const a=candidates[i],b=candidates[j],dx=b.x-a.x,dy=b.y-a.y,range=a.r+b.r+magnetClusterGap;
+      if(dx*dx+dy*dy<=range*range){const rootA=find(i),rootB=find(j);if(rootA!==rootB)parents[rootB]=rootA}
+    }
+    const clusters=new Map();
+    candidates.forEach((b,i)=>{const root=find(i);if(!clusters.has(root))clusters.set(root,[]);clusters.get(root).push(b)});
+    return [...clusters.values()];
+  }
+  function renderMagnetClusterList(clusters){
+    const visibleClusters=groupingMode==='queue'?clusters:clusters.filter(cluster=>cluster.length>1);
+    const signature=groupingMode+':'+visibleClusters.map(cluster=>cluster.map(b=>b.id).sort((a,b)=>a-b).join(',')).join('|');
+    if(signature===magnetClusterSignature)return;
+    magnetClusterSignature=signature;
+    $('magnetClusterList').innerHTML=visibleClusters.length
+      ?visibleClusters.map((cluster,i)=>`<span class="group-chip ${groupingMode==='queue'?'queue':'magnet'}">${groupingMode==='queue'?'第 '+(i+1)+' 組':'M'+(i+1)}：${cluster.length} 顆</span>`).join('')
+      :'<span class="hint">靠近的球會自動成組</span>';
+  }
+  function draw(){drawFrameOnly()}
+  function drawShatterEffects(){
+    if(!shatterEffects.length)return;
+    const progress=Math.min((performance.now()-shatterStartedAt)/shatterDuration,1);
+    shatterEffects.forEach(effect=>{
+      for(let i=0;i<4;i++){
+        const angle=effect.phase+i*Math.PI/2,travel=progress*(effect.r*1.3+14);
+        ctx.save();
+        ctx.globalAlpha=1-progress;
+        ctx.translate(effect.x+Math.cos(angle)*travel,effect.y+Math.sin(angle)*travel+progress*10);
+        ctx.rotate(angle+progress*1.5);
+        ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(effect.r*.65,-effect.r*.35);ctx.lineTo(effect.r*.15,effect.r*.65);ctx.closePath();
+        ctx.fillStyle=effect.color;ctx.fill();ctx.strokeStyle='#ffffffaa';ctx.lineWidth=1;ctx.stroke();
+        ctx.restore();
+      }
+    });
+  }
+  function drawFrameOnly(){
+    // Rendering is kept separate from animation scheduling.
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#0b1728';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(107,146,190,.09)';
+    for(let x=20;x<W;x+=32){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+    for(let y=20;y<H;y+=32){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+    const magnetClusters=getMagnetClusters();
+    renderMagnetClusterList(magnetClusters);
+    updateCompleteGroupsButton(magnetClusters);
+    magnetClusters.forEach((members,i)=>{
+      if(members.length<2&&groupingMode!=='queue')return;
+      const visibleIndex=groupingMode==='queue'?i:magnetClusters.slice(0,i).filter(cluster=>cluster.length>1).length;
+      const x1=Math.max(2,Math.min(...members.map(b=>b.x-b.r))-7),x2=Math.min(W-2,Math.max(...members.map(b=>b.x+b.r))+7);
+      const y1=Math.max(2,Math.min(...members.map(b=>b.y-b.r))-7),y2=Math.min(H-2,Math.max(...members.map(b=>b.y+b.r))+7);
+      ctx.fillStyle=groupingMode==='queue'?'rgba(129,140,248,.07)':'rgba(34,211,238,.06)';ctx.strokeStyle=groupingMode==='queue'?'rgba(129,140,248,.8)':'rgba(34,211,238,.75)';ctx.lineWidth=1.5;ctx.setLineDash([3,4]);ctx.beginPath();ctx.roundRect(x1,y1,x2-x1,y2-y1,12);ctx.fill();ctx.stroke();ctx.setLineDash([]);
+      ctx.font='bold 10px system-ui';const label=groupingMode==='queue'?`第 ${visibleIndex+1} 組 · ${members.length} 顆`:`M${visibleIndex+1} · ${members.length} 顆`,labelWidth=ctx.measureText(label).width+10,labelX=Math.max(2,Math.min(W-labelWidth-2,x1)),labelY=Math.max(13,y1-4);
+      ctx.fillStyle=groupingMode==='queue'?'#20264a':'#0b2633';ctx.fillRect(labelX,labelY-11,labelWidth,16);ctx.fillStyle=groupingMode==='queue'?'#c7d2fe':'#a5f3fc';ctx.fillText(label,labelX+5,labelY);
+    });
+    balls.filter(b=>!shatteringIds.has(b.id)).forEach(b=>{const sel=currentSelection.includes(b.id);ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle=b.color;ctx.shadowColor=b.color;ctx.shadowBlur=sel?16:7;ctx.fill();ctx.shadowBlur=0;ctx.beginPath();ctx.arc(b.x-b.r*.32,b.y-b.r*.36,b.r*.32,0,Math.PI*2);ctx.fillStyle='#ffffffa8';ctx.fill();if(sel){ctx.beginPath();ctx.arc(b.x,b.y,b.r+4,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}});
+    drawShatterEffects();
+    if(drag?.type==='marquee'){const x=Math.min(drag.start.x,drag.end.x),y=Math.min(drag.start.y,drag.end.y),w=Math.abs(drag.end.x-drag.start.x),h=Math.abs(drag.end.y-drag.start.y);ctx.fillStyle='#60a5fa22';ctx.strokeStyle='#93c5fd';ctx.setLineDash([5,4]);ctx.fillRect(x,y,w,h);ctx.strokeRect(x,y,w,h);ctx.setLineDash([])}
+  }
+  function animate(t){const dt=lastTime?Math.min(t-lastTime,34):16;lastTime=t;physics(dt);drawFrameOnly();requestAnimationFrame(animate)}
+  renderPrimeCards();resize();makeBalls(Math.floor(Math.random()*50)+2);requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
